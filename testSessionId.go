@@ -6,16 +6,17 @@ import (
     "math/rand"
     "crypto/md5"
     "strconv"
+	"encoding/hex"
 
 )
-//尝试生成全局唯一的SeeionId.
+
 func main() {
-	sessionId := make(chan []byte)
+	sessionId := make(chan string)
     go sessionIdGet(sessionId);
-	fmt.Printf("%x\n\n",<-sessionId)
+	fmt.Println(<-sessionId)
 }
 
-func sessionIdGet(sessionId chan []byte){
+func sessionIdGet(sessionId chan string){
 	
 	nano := time.Now().UnixNano()
 	rand.Seed(nano)
@@ -27,9 +28,9 @@ func sessionIdGet(sessionId chan []byte){
 	//2、大于32位，strconv.FormatInt()
 	//纳秒数的时间以及以其为种子的随机数作为sessionId的明文。
 	boot :=strconv.FormatInt(sessionNum,10)+strconv.FormatInt(nano,10)
-	fmt.Println(boot)
 	hashMd5 := md5.New()
 	hashMd5.Write([]byte(boot))
-	result := hashMd5.Sum([]byte(""))
-	sessionId <- hashMd5.Sum([]byte(""))	
+	result := hex.EncodeToString(hashMd5.Sum([]byte("")))
+	
+	sessionId <- result	
 }
