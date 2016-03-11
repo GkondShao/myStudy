@@ -1,2 +1,1 @@
-# todo
-angularJS + beego
+beego& gui walk ex
