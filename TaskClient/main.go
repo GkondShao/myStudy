@@ -36,6 +36,7 @@ func loadData() {
 
 	var taskList models.TaskList
 	json.Unmarshal(body, &taskList)
+
 	var str string
 	strs := "this is your task todo\r\n"
 
