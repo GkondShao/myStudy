@@ -3,6 +3,7 @@ package main
 import (
 	SocketUtil "Socket/SocketUtil"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -23,9 +24,11 @@ func Log(v ...interface{}) {
 func handleConnection(conn net.Conn) {
 
 	buf, err := SocketUtil.ReadAll(conn)
-	if err != nil {
+	if err != nil && err != io.EOF {
 		log.Fatal(conn.RemoteAddr().String(), " connection error : ", err)
 	}
+	//test the return
+	log.Println(err)
 	Log(conn.RemoteAddr().String(), "receive data string:", string(buf))
 
 }

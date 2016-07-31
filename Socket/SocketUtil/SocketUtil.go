@@ -21,9 +21,9 @@ func ReadAll(conn net.Conn) ([]byte, error) {
 		Buf = append(Buf, tmpBuf[:n]...)
 
 		if err == io.EOF {
-			break
+			return Buf, err
+
 		}
 	}
 
-	return Buf, nil
 }
