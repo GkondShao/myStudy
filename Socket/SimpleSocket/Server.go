@@ -1,8 +1,8 @@
 package main
 
 import (
+	SocketUtil "Socket/SocketUtil"
 	"fmt"
-	"io"
 	"log"
 	"net"
 	"os"
@@ -21,23 +21,13 @@ func Log(v ...interface{}) {
 }
 
 func handleConnection(conn net.Conn) {
-	buffer := make([]byte, 5)
-	buf := make([]byte, 0)
-	for {
 
-		n, err := conn.Read(buffer)
-		if err != nil && err != io.EOF {
-			log.Fatal(conn.RemoteAddr().String(), " connection error : ", err)
-
-		}
-
-		buf = append(buf, buffer[:n]...)
-		if err == io.EOF {
-			Log(conn.RemoteAddr().String(), "receive data string:", string(buf))
-			break
-		}
-
+	buf, err := SocketUtil.ReadAll(conn)
+	if err != nil {
+		log.Fatal(conn.RemoteAddr().String(), " connection error : ", err)
 	}
+	Log(conn.RemoteAddr().String(), "receive data string:", string(buf))
+
 }
 
 func main() {
