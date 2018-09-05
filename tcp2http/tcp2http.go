@@ -26,6 +26,10 @@ func checkError(err error){
 }
 
 
+func ResponseWithCode(code int) []byte{
+	
+}
+
 
 
 
@@ -36,6 +40,7 @@ func handlerConnection(conn net.Conn){
 	buf,err  := util.ReadAllFromConn(conn)
 	if err != nil{
 		conn.Write(ResponseWithCode(constant.StatusBadRequest))
+		return 
 	}
 	
 }
